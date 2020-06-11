@@ -26,11 +26,13 @@
     id _shrinkViewKeyboardWillChangeFrameObserver;
 }
 
+@property (readwrite, assign, nonatomic) BOOL suppress;
 @property (readwrite, assign, nonatomic) BOOL shrinkView;
 @property (readwrite, assign, nonatomic) BOOL disableScrollingInShrinkView;
 @property (readwrite, assign, nonatomic) BOOL hideFormAccessoryBar;
 @property (readonly, assign, nonatomic) BOOL keyboardIsVisible;
 
+- (void)suppress:(CDVInvokedUrlCommand*)command;
 - (void)shrinkView:(CDVInvokedUrlCommand*)command;
 - (void)disableScrollingInShrinkView:(CDVInvokedUrlCommand*)command;
 - (void)hideFormAccessoryBar:(CDVInvokedUrlCommand*)command;

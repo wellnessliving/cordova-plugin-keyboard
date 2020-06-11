@@ -159,6 +159,9 @@ static IMP WKOriginalImp;
 
 - (void)shrinkViewKeyboardWillChangeFrame:(NSNotification*)notif
 {
+    if(self.suppress)
+      return;
+
     // No-op on iOS 7.0.  It already resizes webview by default, and this plugin is causing layout issues
     // with fixed position elements.  We possibly should attempt to implement shrinkview = false on iOS7.0.
     // iOS 7.1+ behave the same way as iOS 6
@@ -218,6 +221,21 @@ static IMP WKOriginalImp;
 
 #pragma mark Plugin interface
 
+- (void)suppress:(CDVInvokedUrlCommand*)command
+{
+    if (command.arguments.count > 0) {
+        id value = [command.arguments objectAtIndex:0];
+        if (!([value isKindOfClass:[NSNumber class]])) {
+            value = [NSNumber numberWithBool:NO];
+        }
+
+        self.suppress = [value boolValue];
+    }
+    
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:self.suppress]
+                                callbackId:command.callbackId];
+}
+
 - (void)shrinkView:(CDVInvokedUrlCommand*)command
 {
     if (command.arguments.count > 0) {
@@ -228,7 +246,7 @@ static IMP WKOriginalImp;
 
         self.shrinkView = [value boolValue];
     }
-    
+
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:self.shrinkView]
                                 callbackId:command.callbackId];
 }

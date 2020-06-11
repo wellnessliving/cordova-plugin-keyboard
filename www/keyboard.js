@@ -26,6 +26,14 @@ var argscheck = require('cordova/argscheck'),
 var Keyboard = function() {
 };
 
+Keyboard.suppress = function(suppress, success) {
+    if (suppress !== null && suppress !== undefined) {
+        exec(success, null, "Keyboard", "suppress", [suppress]);
+    } else {
+        exec(success, null, "Keyboard", "suppress", []);
+    }
+};
+
 Keyboard.shrinkView = function(shrink, success) {
     if (shrink !== null && shrink !== undefined) {
         exec(success, null, "Keyboard", "shrinkView", [shrink]);
